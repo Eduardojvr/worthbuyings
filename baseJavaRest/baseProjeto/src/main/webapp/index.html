@@ -119,7 +119,7 @@
   	new Vue({
   		el: "#app",
   		data: {
-  			produtos : []
+  			produtos : [],
   			
   		},
   		created(){
@@ -129,16 +129,32 @@
   		},
   		methods: {
   			getAllProducts : function (){
-  				const vm = this;
-  				axios.get('rs/produto/getAllProducts').then(function(response){
-  					vm.produtos.push(response.data);
-  					console.log(vm.produtos);
+  				var settings = {
+  	  		  		"async": true,
+  	  		  		"crossDomain": true,
+  	  		  		"url": "https://amazon-product-reviews-keywords.p.rapidapi.com/product/search?category=aps&country=US&keyword=iphone",
+  	  		  		"method": "GET",
+  	  		  		"headers": {
+  	  		  			"x-rapidapi-host": "amazon-product-reviews-keywords.p.rapidapi.com",
+  	  		  			"x-rapidapi-key": "a2ba7f209fmsh89735c71ed5fe00p11e3e8jsn3b94184e7b13"
+  	  		  			}
+  	  		  		}
+  	  			
+  				$.ajax(settings).done(function (response) {
+  					console.log(response);
   				});
+  			
   			}
 
   		}
   		
   	});
+  	
+  	
+
+  		$.ajax(settings).done(function (response) {
+  			console.log(response);
+  		});
   
   </script>
 
