@@ -10,9 +10,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.baseProjeto.dao.ProdutoDAO;
+import com.baseProjeto.entity.Produto;
 
-@Path("/exemplo")
-public class RESTExemplo {
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+
+@Path("/produto")
+public class RESTProduto {
 
 	@Context
 	private HttpServletRequest request;
@@ -25,10 +31,17 @@ public class RESTExemplo {
 	}
 	
 	@GET
-	@Path("/getExemplo")
+	@Path("/getAllProducts")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public String get() {
-		return "Base para projeto java!";
+	public Response getAllProducts() {
+		ProdutoDAO dao = new ProdutoDAO();
+		ArrayList<Produto> todos = null;
+		try {
+			todos = dao.getAllProducts();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return Response.status(Status.OK).entity(todos).build();
 	}
 
 }

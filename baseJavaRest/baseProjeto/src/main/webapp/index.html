@@ -54,7 +54,7 @@
   <!-- Page Content -->
   <div class="container">
 
-    
+    <div id="app">
     <!-- /.row -->
     <div class="row">
       <div class="col-md-4 mb-5">
@@ -94,6 +94,7 @@
         </div>
       </div>
       </div>
+      </div>
     <!-- /.row -->
 
   </div>
@@ -111,6 +112,35 @@
   <script src="resources/vendor/jquery/jquery.min.js"></script>
   <script src="resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.js"></script>
+
+  <script>
+  	new Vue({
+  		el: "#app",
+  		data: {
+  			produtos : []
+  			
+  		},
+  		created(){
+  			const vm = this;
+  			
+  			vm.getAllProducts();
+  		},
+  		methods: {
+  			getAllProducts : function (){
+  				const vm = this;
+  				axios.get('rs/produto/getAllProducts').then(function(response){
+  					vm.produtos.push(response.data);
+  					console.log(vm.produtos);
+  				});
+  			}
+
+  		}
+  		
+  	});
+  
+  </script>
 
 </body>
 
