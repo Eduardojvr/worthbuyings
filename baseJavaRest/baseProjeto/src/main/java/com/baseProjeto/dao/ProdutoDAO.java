@@ -22,7 +22,7 @@ public class ProdutoDAO {
 		ArrayList <Produto> produtos = new ArrayList<Produto>();
 		ResultSet result = null;
 
-		pstmt = db.prepareStatement("select id, codigo from Produto");
+		pstmt = db.prepareStatement("select id, codigo, urlImg, descricao, preco from produto");
 
 		try {
 			result = pstmt.executeQuery();
@@ -30,6 +30,9 @@ public class ProdutoDAO {
 				prod = new Produto();
 				prod.setId(result.getInt("id"));
 				prod.setCodigo(result.getString("codigo"));
+				prod.setUrlImg(result.getString("urlImg"));
+				prod.setDescricao(result.getString("descricao"));
+				prod.setPreco(result.getString("preco"));
 				produtos.add(prod);
 			}
 
@@ -54,13 +57,20 @@ public class ProdutoDAO {
 		sql.append("INSERT INTO Produto ");
 		sql.append(" ( ");
 		sql.append(" id, ");
-		sql.append(" codigo ");
-		sql.append(" VALUES (?,?);");
+		sql.append(" codigo, ");
+		sql.append(" urlImg, ");
+		sql.append(" descricao, ");
+		sql.append(" preco ");
+		sql.append(" VALUES (?,?,?,?,?);");
 
 		try {
 			pstmt = db.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 			pstmt.setInt(1, produto.getId());
 			pstmt.setString(2, produto.getCodigo());
+			pstmt.setString(3, produto.getUrlImg());
+			pstmt.setString(4, produto.getDescricao());
+			pstmt.setString(5, produto.getPreco());
+
 			pstmt.executeUpdate();
 
 		} finally {

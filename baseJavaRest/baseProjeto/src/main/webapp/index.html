@@ -50,53 +50,23 @@
 
   <!--Inserir um carosel-->
  
-<a target="_blank" href="https://www.amazon.com/gp/product/B00UP0VOF0/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00UP0VOF0&linkCode=as2&tag=worthbuyings-20&linkId=f4dafe888988d5946b02a8fe1c4a7808">1984</a><img src="http://ir-na.amazon-adsystem.com/e/ir?t=worthbuyings-20&l=am2&o=1&a=B00UP0VOF0" width="20" height="20" border="0" alt="" style="border:none !important; margin:0px !important;" />
-  <!-- Page Content -->
-  <div class="container">
 
     <div id="app">
     <!-- /.row -->
-    <div class="row">
-      <div class="col-md-4 mb-5">
-        <div class="card h-100">
-          <img class="card-img-top" src="https://placehold.it/300x200" alt="">
-          <div class="card-body">
-            <h4 class="card-title">Card title</h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque sequi doloribus.</p>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="btn btn-primary">Find Out More!</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-5">
-        <div class="card h-100">
-          <img class="card-img-top" src="https://placehold.it/300x200" alt="">
-          <div class="card-body">
-            <h4 class="card-title">Card title</h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque sequi doloribus totam ut praesentium aut.</p>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="btn btn-primary">Find Out More!</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-5">
-        <div class="card h-100">
-          <img class="card-img-top" src="https://placehold.it/300x200" alt="">
-          <div class="card-body">
-            <h4 class="card-title">Card title</h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="btn btn-primary">Find Out More!</a>
-          </div>
-        </div>
-      </div>
-      </div>
-      </div>
-    <!-- /.row -->
-
+	    <div class="row">
+	      <div class="col-md-4 mb-5" v-for="prod in produtos[0]">
+	        <div class="card h-100">
+	          <img class="card-img-top" style="max-width:300px; max-height:300px;" v-bind:src="prod.urlImg" alt="">
+	          <div class="card-body">
+	            <h4 class="card-title">{{prod.descricao}}</h4>
+	            <p class="card-text" style="color:rgb(144,238,144);">{{prod.preco}}</p>
+	          </div>
+	          <div class="card-footer">
+	            <a v-bind:href="url1+prod.codigo+url2" target="_blank" class="btn btn-warning">Comprar</a>
+	          </div>
+	        </div>
+	      </div>
+	   </div>
   </div>
   <!-- /.container -->
 
@@ -120,6 +90,8 @@
   		el: "#app",
   		data: {
   			produtos : [],
+  			url1:'https://www.amazon.com.br/gp/product/',
+  			url2:'/ref=as_li_ss_il?ie=UTF8&linkCode=li2&tag=worthbuyins-20&linkId=d877e9ca78dabac7f95ac6482247926f&language=pt_BR'
   			
   		},
   		created(){
@@ -129,7 +101,15 @@
   		},
   		methods: {
   			getAllProducts : function (){
-  				var settings = {
+  				const vm =this;
+
+  				axios.get('rs/produto/getAllProducts').then(function(response){
+  					console.log(response.data);
+  					vm.produtos.push(response.data);
+  					console.log(vm.produtos);
+
+  				});
+  				/* var settings = {
   	  		  		"async": true,
   	  		  		"crossDomain": true,
   	  		  		"url": "https://amazon-product-reviews-keywords.p.rapidapi.com/product/search?category=aps&country=US&keyword=iphone",
@@ -138,11 +118,15 @@
   	  		  			"x-rapidapi-host": "amazon-product-reviews-keywords.p.rapidapi.com",
   	  		  			"x-rapidapi-key": "a2ba7f209fmsh89735c71ed5fe00p11e3e8jsn3b94184e7b13"
   	  		  			}
-  	  		  		}
+  	  		  		} */
   	  			
-  				$.ajax(settings).done(function (response) {
-  					console.log(response);
-  				});
+  				/* $.ajax(settings).done(function (response) {
+  					vm.produtos.push(response)
+  					console.log(response.Retry-After);
+  					console.log(response.products);
+  					console.log(vm.produtos);
+
+  				}); */
   			
   			}
 
@@ -152,9 +136,6 @@
   	
   	
 
-  		$.ajax(settings).done(function (response) {
-  			console.log(response);
-  		});
   
   </script>
 
